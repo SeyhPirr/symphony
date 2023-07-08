@@ -1,10 +1,30 @@
-import React, { useEffect } from "react";
-import styles from "../index.module.css";
+import React, { useEffect, useState } from "react";
+import styles from "../styles/login.module.css";
+import fetcher from "../../library/fetcher";
+
 function Login() {
   useEffect(() => {
     document.title = "Login";
   }, []);
 
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+  const handleChange = (event: any) => {
+    console.log("event: ", event.target.name);
+    const fieldName = event.target.name;
+    setFormData((existingValues) => ({
+      ...existingValues,
+
+      [fieldName]: event.target.value,
+    }));
+  };
+  const handleSubmit = () => {
+    console.log("hey there");
+    fetcher(formData);
+  };
+  //********************************
   return (
     <div className={styles.box}>
       <div className={styles.container}>
@@ -15,8 +35,10 @@ function Login() {
         </div>
         <div className="input-field">
           <input
+            name="username"
             type="text"
             className={styles.input}
+            onChange={handleChange}
             placeholder="Username"
             required
           />
@@ -24,29 +46,36 @@ function Login() {
         </div>
         <div className="input-field">
           <input
+            name="password"
             type="password"
-            className="input"
+            className={styles.input}
+            onChange={handleChange}
             placeholder="Password"
             required
           />
           <i className="bx bx-lock-alt"></i>
         </div>
         <div className="input-field">
-          <input type="submit" className="submit" value="Login" />
+          <input
+            type="submit"
+            className={styles.submit}
+            value="Login"
+            onClick={handleSubmit}
+          />
         </div>
 
-        <div className="bottom">
-          <div className="left">
+        <div className={styles.bottom}>
+          <div className={styles.left}>
             <input type="checkbox" id="check" />
-            <label htmlFor="check">Remember me</label>
+            <label htmlFor="check"> Remember me</label>
           </div>
-          <div className="right">
+          <div className={styles.right}>
             <label>
-              <a href="#">Dont you have an account?</a>
+              <a href="/signup">Dont you have an account?</a>
             </label>
           </div>
         </div>
-        <div className="last">
+        <div className={styles.last}>
           <label>
             <a href="#">Forgot password?</a>
           </label>
