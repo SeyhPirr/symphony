@@ -24,11 +24,13 @@ class dbService {
     console.log("RESPONSE:", response);
     return response;
   }
-  async getUser(username) {
-    const query = "SELECT * FROM user";
-    const [rows, fields] = await pool.execute(query);
-
+  async login(data) {
+    const query = "SELECT * FROM user WHERE username=?;";
+    const [rows, fields] = await pool.execute(query, [data.username]);
     console.log(rows);
+    if (rows[0]?.password !== data.password)
+      throw Error("Your password or username is wrong.");
+    return data;
   }
 }
 

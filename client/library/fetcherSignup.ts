@@ -9,9 +9,10 @@ async function fetcher(data: any) {
     passwordAgain === "" ||
     email === ""
   )
-    return console.log("You can`t have empty lines.");
+    return { message: "You cant have empty lines." };
   if (password !== passwordAgain)
-    return console.log("Passwords are not matching.");
+    return { message: "Passwords are not matching." };
+
   const response = await fetch("http://localhost:8000/signup", {
     method: "POST",
     headers: {
@@ -21,5 +22,6 @@ async function fetcher(data: any) {
   });
   const reply = await response.json();
   console.log(reply);
+  return reply;
 }
 export default fetcher;

@@ -8,26 +8,51 @@ dotenv.config();
 const port = Number(process.env.PORT) || 5000;
 
 const app = new Hono();
+///MIDDLEWARES
 app.use("*", cors());
-
 app.onError((err, c) => {
-  console.log(err);
+  const path = c._path;
+  console.log(c._path);
   const message = err.message;
-  if (err.message.includes("user.PRIMARY") && err.errno === 1062) {
-    console.log("duplicate data erroru ve username eroru");
-  }
-  if (err.message.includes("user.email") && err.errno === 1062) {
-    console.log("duplicate data erroru ve email eroru");
-  }
+  console.log(err);
+  ///signup error
+  if (path === "/signup") {
+    if (message.includes("user.PRIMARY") && err.errno === 1062) {
+      return c.json({ message: "Username is already in use." }, 406);
+    }
+    if (message.includes("user.email") && err.errno === 1062) {
+      return c.json({ message: "Email is already in use." }, 406);
+    }
+    if (message.includes("Data too long")) {
+      return c.json({ message: "More character than it is allowed." }, 406);
+    }
 
-  return c.json({ message: "Error sent from onError" }, 500);
+    return c.json({ message: "There was an error on signup process." }, 400);
+  }
+  if (path === "/login") {
+    return c.json({ message }, 406);
+  }
+  return c.json({ message: "There was an error." }, 400);
 });
 
+///POST REQUEST
 app.post("/signup", async (c) => {
   const body = await c.req.json();
-  const dbResponse = await DB.signup(body);
-  console.log("DB RESPONSE:", dbResponse);
-  return c.json(body, 201);
+  await DB.signup(body);
+  return c.json(body, 200);
+});
+
+app.post("/login", async (c) => {
+  const body = await c.req.json();
+  const DBresponse = await DB.login(body);
+  console.log(DBresponse);
+  return c.json(body, 200);
+});
+
+app.post("/profilePicture", async (c) => {
+  const body = await c.req.body;
+  console.log(body);
+  return c.json(body, 200);
 });
 
 serve(

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/signup.module.css";
-import fetcher from "../../library/fetcher";
+import fetcher from "../../library/fetcherSignup";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   useEffect(() => {
     document.title = "Signup";
   }, []);
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -21,8 +24,13 @@ function Signup() {
       [fieldName]: event.target.value,
     }));
   };
-  const handleSubmit = () => {
-    fetcher(formData);
+  const handleSubmit = async () => {
+    const response = await fetcher(formData);
+    if (response.message) {
+      return setError(response.message);
+    }
+    setError("");
+    navigate("/profile");
   };
   //**********************************************************************
   return (
@@ -96,12 +104,15 @@ function Signup() {
               <a href="/login">Do you already have an account?</a>
             </label>
           </div>
-          <div className={styles.left}>
-            <label>
-              <a href="#">Forgot password?</a>
-            </label>
-          </div>
         </div>
+        {error ? (
+          <div className={styles.error}>
+            <img src="../logos/error.svg" className={styles.error_icon} />
+            <div>{error}</div>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

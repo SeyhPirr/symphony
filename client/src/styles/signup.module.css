@@ -62,8 +62,8 @@ span {
 .bottom {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  font-size: small;
+  justify-content: center;
+  font-size: medium;
   width: 25%;
   color: #fff;
   margin-top: 10px;
@@ -71,4 +71,21 @@ span {
 label a {
   text-decoration: none;
   color: #04d9ff;
+}
+.error {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  border-radius: 30px;
+  color: red;
+
+  margin-top: 20px;
+}
+
+.error_icon {
+  margin-right: 5px;
+  position: relative;
+  bottom: 3px;
 }

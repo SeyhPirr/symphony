@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/login.module.css";
-import fetcher from "../../library/fetcher";
+import fetcher from "../../library/fetcherLogin";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   useEffect(() => {
     document.title = "Login";
   }, []);
-
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -20,9 +22,13 @@ function Login() {
       [fieldName]: event.target.value,
     }));
   };
-  const handleSubmit = () => {
-    console.log("hey there");
-    fetcher(formData);
+  const handleSubmit = async () => {
+    const response = await fetcher(formData);
+    if (response.message) {
+      return setError(response.message);
+    }
+    setError("");
+    navigate("/");
   };
   //********************************
   return (
@@ -65,21 +71,20 @@ function Login() {
         </div>
 
         <div className={styles.bottom}>
-          <div className={styles.left}>
-            <input type="checkbox" id="check" />
-            <label htmlFor="check"> Remember me</label>
-          </div>
           <div className={styles.right}>
             <label>
               <a href="/signup">Dont you have an account?</a>
             </label>
           </div>
         </div>
-        <div className={styles.last}>
-          <label>
-            <a href="#">Forgot password?</a>
-          </label>
-        </div>
+        {error ? (
+          <div className={styles.error}>
+            <img src="../logos/error.svg" className={styles.error_icon} />
+            <div>{error}</div>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );
