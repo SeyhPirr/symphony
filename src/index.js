@@ -49,10 +49,10 @@ app.post("/login", async (c) => {
   return c.json(body, 200);
 });
 
-app.post("/profilePicture", async (c) => {
+app.post("/profile", async (c) => {
   const body = await c.req.body;
   console.log(body);
-  return c.json(body, 200);
+  return c.json({ message: "congrats" }, 200);
 });
 
 serve(
