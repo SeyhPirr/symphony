@@ -26,9 +26,7 @@ function CreateProfile() {
   return (
     <div className={styles.box}>
       <div className={styles.wrapper}>
-        <Popup trigger={editButton} setTrigger={setEditButton}>
-          <h3>MY Popup</h3>
-        </Popup>
+        <Popup trigger={editButton} setTrigger={setEditButton}></Popup>
         <div className={styles.left}>
           <img src={image} alt="user" width="100" />
           <h4>Flavius Belisarius</h4>

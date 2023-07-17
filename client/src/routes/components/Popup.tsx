@@ -11,7 +11,7 @@ function Popup(props: any) {
             props.setTrigger(false);
           }}
         >
-          close
+          <img src="../../../logos/x.svg" alt="" />
         </button>
         {props.children}
       </div>

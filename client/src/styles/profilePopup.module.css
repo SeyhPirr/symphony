@@ -20,7 +20,14 @@
 }
 
 .inner .close {
+  background: #fff;
   position: absolute;
   top: 16px;
   right: 16px;
+  border: none;
+  border-radius: 5px;
+}
+.inner .close:hover {
+  background: #c4bcbc;
+  box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.15);
 }
