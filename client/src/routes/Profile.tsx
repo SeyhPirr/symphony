@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import image from "./profile_pictures/belisarius.jpg";
 import styles from "../styles/profile.module.css";
+import Popup from "./components/Popup";
 
 function CreateProfile() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [isFilePicked, setIsFilePicked] = useState(false);
+  const [editButton, setEditButton] = useState(false);
 
   const changeHandler = (event: any) => {
     setSelectedFile(event.target.files[0]);
@@ -22,17 +23,24 @@ function CreateProfile() {
     const reply = await response.json();
     console.log(reply);
   };
-  const handleButton = () => {
-    console.log(selectedFile);
-  };
 
   return (
     <div className={styles.box}>
       <div className={styles.wrapper}>
+        <Popup trigger={editButton} setTrigger={setEditButton}>
+          <h3>MY Popup</h3>
+        </Popup>
         <div className={styles.left}>
           <img src={image} alt="user" width="100" />
           <h4>Flavius Belisarius</h4>
           <p>Sword of Rome</p>
+          <button
+            onClick={() => {
+              setEditButton(true);
+            }}
+          >
+            Edit your profile
+          </button>
         </div>
         <div className={styles.right}>
           <div className={styles.biography}>
