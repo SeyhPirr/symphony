@@ -9,7 +9,6 @@ function CreateProfile() {
 
   const changeHandler = (event: any) => {
     setSelectedFile(event.target.files[0]);
-    setIsFilePicked(true);
   };
 
   const handleSubmit = async () => {
