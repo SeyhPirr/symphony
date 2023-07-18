@@ -6,6 +6,7 @@ const pool1 = mysql.createConnection({
   host: process.env.HOST,
   user: process.env.NAME,
   database: process.env.DATABASE,
+  password: process.env.PASSWORD
 });
 pool1.connect((err) => {
   if (err) return console.log(err);
@@ -31,6 +32,11 @@ class dbService {
     if (rows[0]?.password !== data.password)
       throw Error("Your password or username is wrong.");
     return data;
+  }
+  async getUser(username){
+    const query = "SELECT * FROM user WHERE username=?;";
+    const [rows, fields] = await pool.execute(query, [username]);
+    return rows;
   }
 }
 

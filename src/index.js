@@ -50,8 +50,10 @@ app.post("/login", async (c) => {
 });
 
 app.post("/profile", async (c) => {
-  const body = await c.req.body;
-  console.log(body);
+  const body = await c.req.json();
+  const username = body.username;
+  const DBresponse =await  DB.getUser(username);
+  console.log(DBresponse)
   return c.json({ message: "congrats" }, 200);
 });
 

@@ -1,16 +1,31 @@
 import React, { useEffect, useState } from "react";
-import image from "./profile_pictures/belisarius.jpg";
+import image from "./profile_pictures/image.png";
 import styles from "../styles/profile.module.css";
 import Popup from "./components/Popup";
+import { useParams } from "react-router-dom";
 
 function CreateProfile() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [editButton, setEditButton] = useState(false);
+  const params= useParams();
+  const [userData,setUserData] = useState({})
+useEffect(()=>{
+  const username = params.username;
+  const fetchData = async ()=>{
+    const response = await fetch("http://localhost:8000/profile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify({username}),
+    });
+    const reply = await response.json();
+    console.log(reply);
 
-  const changeHandler = (event: any) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
+  }
+ fetchData().catch((err)=>{console.error(err)})
+},[])
+ 
   const handleSubmit = async () => {
     const response = await fetch("http://localhost:8000/profile", {
       method: "POST",

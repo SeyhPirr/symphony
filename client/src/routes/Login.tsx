@@ -48,7 +48,8 @@ function Login() {
             placeholder="Username"
             required
           />
-          <i className="bx bx-user"></i>
+          <img src="../logos/user.svg" className={styles.icon} />
+          
         </div>
         <div className="input-field">
           <input
@@ -59,7 +60,7 @@ function Login() {
             placeholder="Password"
             required
           />
-          <i className="bx bx-lock-alt"></i>
+          <img src="../logos/lock.svg" className={styles.icon} />
         </div>
         <div className="input-field">
           <input
