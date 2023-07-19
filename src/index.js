@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import dbService from "./dbService.js";
 import dotenv from "dotenv";
+
 const DB = new dbService();
 dotenv.config();
 const port = Number(process.env.PORT) || 5000;
@@ -10,6 +11,7 @@ const port = Number(process.env.PORT) || 5000;
 const app = new Hono();
 ///MIDDLEWARES
 app.use("*", cors());
+
 app.onError((err, c) => {
   const path = c._path;
   console.log(c._path);
@@ -51,10 +53,17 @@ app.post("/login", async (c) => {
 
 app.post("/profile", async (c) => {
   const body = await c.req.json();
+  console.log(c.req.file);
   const username = body.username;
-  const DBresponse =await  DB.getUser(username);
-  console.log(DBresponse)
-  return c.json({ message: "congrats" }, 200);
+  const DBresponse = await DB.getUser(username);
+  console.log(DBresponse);
+  return c.json(DBresponse, 200);
+});
+
+app.post("/edit", async (c) => {
+  const body = await c.req.parseBody();
+  console.log(body);
+  return c.json({ message: "hey" }, 200);
 });
 
 serve(

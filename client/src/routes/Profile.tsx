@@ -7,32 +7,38 @@ import { useParams } from "react-router-dom";
 function CreateProfile() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [editButton, setEditButton] = useState(false);
-  const params= useParams();
-  const [userData,setUserData] = useState({})
-useEffect(()=>{
-  const username = params.username;
-  const fetchData = async ()=>{
-    const response = await fetch("http://localhost:8000/profile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body:JSON.stringify({username}),
-    });
-    const reply = await response.json();
-    console.log(reply);
+  const params = useParams();
+  const [userData, setUserData] = useState({});
+  useEffect(() => {
+    const username = params.username;
+    const fetchData = async () => {
+      const response = await fetch("http://localhost:8000/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username }),
+      });
+      const reply = await response.json();
+      setUserData(reply);
 
+      console.log(reply);
+    };
+    fetchData().catch((err) => {
+      console.error(err);
+    });
+  }, []);
+  function handleInput(event) {
+    return setSelectedFile(event.target.files[0]);
   }
- fetchData().catch((err)=>{console.error(err)})
-},[])
- 
   const handleSubmit = async () => {
-    const response = await fetch("http://localhost:8000/profile", {
+    console.log(selectedFile);
+    const response = await fetch("http://localhost:8000/edit", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/formdata",
       },
-      body: selectedFile,
+      body: new FormData(selectedFile),
     });
     const reply = await response.json();
     console.log(reply);
@@ -41,11 +47,22 @@ useEffect(()=>{
   return (
     <div className={styles.box}>
       <div className={styles.wrapper}>
-        <Popup trigger={editButton} setTrigger={setEditButton}></Popup>
+        <Popup trigger={editButton} setTrigger={setEditButton}>
+          <div className="edit_profile">
+            <input
+              onChange={handleInput}
+              type="file"
+              name="profile_picture"
+              accept="image/*"
+            />
+            <label htmlFor="profile_picture">Profile picture</label>
+            <button onClick={handleSubmit}>Submit</button>
+          </div>
+        </Popup>
         <div className={styles.left}>
           <img src={image} alt="user" width="100" />
-          <h4>Flavius Belisarius</h4>
-          <p>Sword of Rome</p>
+
+          <h4>{userData.username ? userData.username : "Username"}</h4>
           <button
             onClick={() => {
               setEditButton(true);
@@ -57,27 +74,19 @@ useEffect(()=>{
         <div className={styles.right}>
           <div className={styles.biography}>
             <h3>Biography</h3>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nobis
-              harum odio nulla repellendus dolores, architecto autem sapiente,
-              nesciunt aliquid quidem ducimus minima accusantium hic! Eius enim
-              dicta ipsum! Eius, similique!
-            </p>
+            <p>{userData.biography ? userData.biography : ""}</p>
           </div>
           <div className={styles.projects}>
             <h3>information</h3>
             <div className={styles.info_data}>
               <div className={styles.data}>
                 <h4>Email</h4>
-                <p>FlaviusBelisarius@hotmail.com</p>
+                <p>{userData.email ? userData.email : ""}</p>
               </div>
-              <div className={styles.data}>
-                <h4>Phone</h4>
-                <p>0100019190191910</p>
-              </div>
+
               <div className={styles.data}>
                 <h4>Location</h4>
-                <p>Nigde</p>
+                <p>{userData.location ? userData.location : ""}</p>
               </div>
             </div>
           </div>

@@ -36,7 +36,7 @@ class dbService {
   async getUser(username){
     const query = "SELECT * FROM user WHERE username=?;";
     const [rows, fields] = await pool.execute(query, [username]);
-    return rows;
+    return rows[0];
   }
 }
 
