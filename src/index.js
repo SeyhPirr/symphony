@@ -3,7 +3,8 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import dbService from "./dbService.js";
 import dotenv from "dotenv";
-
+import fs from "fs";
+import formidable from "formidable";
 const DB = new dbService();
 dotenv.config();
 const port = Number(process.env.PORT) || 5000;
@@ -62,8 +63,19 @@ app.post("/profile", async (c) => {
 
 app.post("/edit", async (c) => {
   const body = await c.req.parseBody();
-  console.log(body);
-  return c.json({ message: "hey" }, 200);
+  console.log(body.file);
+  const form = formidable(body);
+  console.log(form);
+  ///////////////////////////
+  form.parse((err, fields, files) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+  });
+
+  ///////////////////////////
+  return c.json({ message: "congrats" }, 200);
 });
 
 serve(

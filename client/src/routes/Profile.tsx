@@ -32,16 +32,18 @@ function CreateProfile() {
     return setSelectedFile(event.target.files[0]);
   }
   const handleSubmit = async () => {
+    const data = new FormData();
+    data.append("file", selectedFile);
+    data.append("user", userData.username);
     console.log(selectedFile);
     const response = await fetch("http://localhost:8000/edit", {
       method: "POST",
-      headers: {
-        "Content-Type": "multipart/formdata",
-      },
-      body: new FormData(selectedFile),
+
+      body: data,
     });
+    console.log(response);
     const reply = await response.json();
-    console.log(reply);
+    console.log(reply.file);
   };
 
   return (
