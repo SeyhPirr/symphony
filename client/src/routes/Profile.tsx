@@ -9,6 +9,7 @@ function CreateProfile() {
   const [editButton, setEditButton] = useState(false);
   const params = useParams();
   const [userData, setUserData] = useState({});
+  const [profilePicture, setProfilePicture] = useState<String | null>(null);
   useEffect(() => {
     const username = params.username;
     const fetchData = async () => {
@@ -41,15 +42,19 @@ function CreateProfile() {
 
       body: data,
     });
-    console.log(response);
     const reply = await response.json();
+    setProfilePicture(reply.file);
     console.log(reply.file);
   };
 
   return (
     <div className={styles.box}>
       <div className={styles.wrapper}>
-        <Popup trigger={editButton} setTrigger={setEditButton}>
+        <Popup
+          trigger={editButton}
+          setTrigger={setEditButton}
+          className={styles.popup}
+        >
           <div className="edit_profile">
             <input
               onChange={handleInput}
@@ -57,12 +62,12 @@ function CreateProfile() {
               name="profile_picture"
               accept="image/*"
             />
-            <label htmlFor="profile_picture">Profile picture</label>
+
             <button onClick={handleSubmit}>Submit</button>
           </div>
         </Popup>
         <div className={styles.left}>
-          <img src={image} alt="user" width="100" />
+          <img src="http://localhost:8000/image" alt="user" width="100" />
 
           <h4>{userData.username ? userData.username : "Username"}</h4>
           <button
