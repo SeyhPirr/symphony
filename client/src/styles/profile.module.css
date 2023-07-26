@@ -76,3 +76,40 @@
   width: 100%;
   height: 22vh;
 }
+.edit_profile{
+display: grid;
+}
+.edit_profile .file{
+  display: none;
+}
+.edit_profile label{
+  color: white;
+  height: 60px;
+  width: 250px;
+  background-color: #01dbdf ;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit_profile label img{
+  margin-right: 5px;
+  color: white;
+}
+.edit_profile .biography{
+margin-top: 10px;
+}
+.edit_profile .location{
+  color: white;
+  height: 30px;
+  width: 250px;
+  margin: auto;
+ 
+  font-size: 20px;
+  
+}

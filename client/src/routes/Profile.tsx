@@ -55,13 +55,27 @@ function CreateProfile() {
           setTrigger={setEditButton}
           className={styles.popup}
         >
-          <div className="edit_profile">
+          <div className={styles.edit_profile}>
             <input
               onChange={handleInput}
               type="file"
-              name="profile_picture"
+              id="file"
               accept="image/*"
+              className={styles.file}
             />
+          
+            <label htmlFor="file"><img src="../logos/image.svg" className={styles.icon} />Choose a photo</label>
+           <textarea name="" id="" cols="30" rows="10" className={styles.biography} placeholder="Enter your biography"/>
+           <input type="text" className={styles.location} placeholder="Enter your location" />
+           <input
+              onChange={handleInput}
+              type="file"
+              id="music"
+              accept="audio/*"
+              className={styles.file}
+
+            />
+            <label htmlFor="music"><img src="../logos/music.svg" className={styles.icon} />Choose a profile music</label>
 
             <button onClick={handleSubmit}>Submit</button>
           </div>
